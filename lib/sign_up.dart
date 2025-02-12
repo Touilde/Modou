@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 import 'parameters.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -11,8 +13,23 @@ class SignUpPage extends StatelessWidget {
     final _emailController = TextEditingController();
     final _passwordController = TextEditingController();
 
-    void _register() {
+    Future<void> saveUserData(String username, String email, String password) async {
+      final prefs = await SharedPreferences.getInstance();
+      final userData = {
+        'username': username,
+        'email': email,
+        'password': password,
+      };
+      await prefs.setString('user_data', jsonEncode(userData));
+    }
+
+    void _register() async {
       if (_formKey.currentState!.validate()) {
+        await saveUserData(
+          _usernameController.text,
+          _emailController.text,
+          _passwordController.text,
+        );
         // Navigate to parameters page
         Navigator.push(
           context,
