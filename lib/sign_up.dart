@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'parameters.dart';
+import 'parameters_page.dart'; // Import the parameters page
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class SignUp extends StatelessWidget {
+  const SignUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +12,13 @@ class SignUpPage extends StatelessWidget {
     final _usernameController = TextEditingController();
     final _emailController = TextEditingController();
     final _passwordController = TextEditingController();
+
+    // Clear the text controllers when the widget is initialized
+    void _clearControllers() {
+      _usernameController.clear();
+      _emailController.clear();
+      _passwordController.clear();
+    }
 
     Future<void> saveUserData(String username, String email, String password) async {
       final prefs = await SharedPreferences.getInstance();
@@ -30,10 +37,11 @@ class SignUpPage extends StatelessWidget {
           _emailController.text,
           _passwordController.text,
         );
+        _clearControllers(); // Clear the controllers after saving user data
         // Navigate to parameters page
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ParametersPage()),
+          MaterialPageRoute(builder: (context) => ParametersPage()), // Updated navigation
         );
       } else {
         // Show alert dialog

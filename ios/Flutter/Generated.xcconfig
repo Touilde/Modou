@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/mathildeval/development/flutter
-FLUTTER_APPLICATION_PATH=/Users/mathildeval/Documents/Master2/ArchitectureWebMobile/Leroux/Modou
+FLUTTER_ROOT=/Users/juliepetetin/development/flutter
+FLUTTER_APPLICATION_PATH=/Users/juliepetetin/Documents/GitHub/Modou
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build

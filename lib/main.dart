@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:modou/parameters_page.dart';
 import 'sign_up.dart';
+import 'login_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,7 +13,17 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const SignUpPage(), // Définir SignUpPage comme la page d'accueil
+      title: 'Modou',
+      theme: ThemeData(
+        primarySwatch: Colors.brown,
+      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SignUp(),
+        //'/sign_up': (context) => const SignUpPage(),
+        '/login': (context) => const LoginPage(),
+        '/parameters': (context) => const ParametersPage(),
+      },
     );
   }
 }
