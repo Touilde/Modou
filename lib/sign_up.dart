@@ -20,22 +20,32 @@ class SignUp extends StatelessWidget {
       _passwordController.clear();
     }
 
-    Future<void> saveUserData(String username, String email, String password) async {
-      final prefs = await SharedPreferences.getInstance();
-      final userData = {
-        'username': username,
-        'email': email,
-        'password': password,
-      };
-      await prefs.setString('user_data', jsonEncode(userData));
-    }
+    Future<void> saveUserData(String username, String email) async {
+  final prefs = await SharedPreferences.getInstance();
+  
+  // Sauvegarde les infos utilisateur
+  final userData = jsonEncode({'username': username, 'email': email});
+  await prefs.setString('user_data', userData);
+
+  // Réinitialiser les paramètres pour le nouvel utilisateur
+  String userKey = email; // On utilise l'email comme clé unique
+
+  await prefs.setString('$userKey.selectedLanguage', '');
+  await prefs.setBool('$userKey.isLightTheme', false);
+  await prefs.setBool('$userKey.notificationsEnabled', false);
+  await prefs.setBool('$userKey.shareLocation', false);
+  await prefs.setString('$userKey.selectedReminderFrequency', '');
+  await prefs.setString('$userKey.selectedNotificationTone', '');
+  await prefs.setStringList('$userKey.preferredNotificationTimes', []);
+  await prefs.setStringList('$userKey.preferredCommunicationMethods', []);
+}
+
 
     void _register() async {
       if (_formKey.currentState!.validate()) {
         await saveUserData(
           _usernameController.text,
           _emailController.text,
-          _passwordController.text,
         );
         _clearControllers(); // Clear the controllers after saving user data
         // Navigate to parameters page
@@ -225,6 +235,7 @@ class SignUp extends StatelessWidget {
                         ),
                         onPressed: () {
                           // Navigate to login page
+                          Navigator.pushNamed(context, '/login');
                         },
                         child: const Text(
                           'Se connecter',

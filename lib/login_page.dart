@@ -18,10 +18,18 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = true;
     });
+    
 
     final prefs = await SharedPreferences.getInstance();
     final storedEmail = prefs.getString('email');
     final storedPassword = prefs.getString('password');
+
+    // Ajoute ces prints pour voir ce qui est stocké
+  print("Email enregistré dans SharedPreferences : $storedEmail");
+  print("Mot de passe enregistré dans SharedPreferences : $storedPassword");
+  print("Email entré par l'utilisateur : ${_emailController.text}");
+  print("Mot de passe entré par l'utilisateur : ${_passwordController.text}");
+
 
     if (_emailController.text == storedEmail && _passwordController.text == storedPassword) {
       setState(() {
@@ -68,12 +76,6 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: _login,
                     child: const Text('Se connecter'),
                   ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/sign_up');
-              },
-              child: const Text('Créer un compte'),
-            ),
           ],
         ),
       ),

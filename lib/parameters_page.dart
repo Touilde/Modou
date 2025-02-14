@@ -39,30 +39,48 @@ class _ParametersPageState extends State<ParametersPage> {
   }
 
   Future<void> _loadUserSettings() async {
-    final prefs = await SharedPreferences.getInstance();
+  final prefs = await SharedPreferences.getInstance();
+  final userData = await readUserData();
+
+  if (userData != null) {
     setState(() {
-      _selectedLanguage = prefs.getString('selectedLanguage');
-      _isLightTheme = prefs.getBool('isLightTheme') ?? false;
-      _notificationsEnabled = prefs.getBool('notificationsEnabled') ?? false;
-      _shareLocation = prefs.getBool('shareLocation') ?? false;
-      _selectedReminderFrequency = prefs.getString('selectedReminderFrequency');
-      _selectedNotificationTone = prefs.getString('selectedNotificationTone');
-      _preferredNotificationTimes.addAll(prefs.getStringList('preferredNotificationTimes') ?? []);
-      _preferredCommunicationMethods.addAll(prefs.getStringList('preferredCommunicationMethods') ?? []);
+      _username = userData['username'];
+      _email = userData['email'];
+    });
+
+    // Utiliser l'email pour différencier les utilisateurs
+    final userKey = _email ?? 'default_user';
+
+    setState(() {
+      _selectedLanguage = prefs.getString('$userKey.selectedLanguage');
+      _isLightTheme = prefs.getBool('$userKey.isLightTheme') ?? false;
+      _notificationsEnabled = prefs.getBool('$userKey.notificationsEnabled') ?? false;
+      _shareLocation = prefs.getBool('$userKey.shareLocation') ?? false;
+      _selectedReminderFrequency = prefs.getString('$userKey.selectedReminderFrequency');
+      _selectedNotificationTone = prefs.getString('$userKey.selectedNotificationTone');
+      _preferredNotificationTimes
+          .addAll(prefs.getStringList('$userKey.preferredNotificationTimes') ?? []);
+      _preferredCommunicationMethods
+          .addAll(prefs.getStringList('$userKey.preferredCommunicationMethods') ?? []);
     });
   }
+}
+
 
   Future<void> _saveUserSettings() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedLanguage', _selectedLanguage ?? '');
-    await prefs.setBool('isLightTheme', _isLightTheme);
-    await prefs.setBool('notificationsEnabled', _notificationsEnabled);
-    await prefs.setBool('shareLocation', _shareLocation);
-    await prefs.setString('selectedReminderFrequency', _selectedReminderFrequency ?? '');
-    await prefs.setString('selectedNotificationTone', _selectedNotificationTone ?? '');
-    await prefs.setStringList('preferredNotificationTimes', _preferredNotificationTimes);
-    await prefs.setStringList('preferredCommunicationMethods', _preferredCommunicationMethods);
-  }
+  final prefs = await SharedPreferences.getInstance();
+  final userKey = _email ?? 'default_user';
+
+  await prefs.setString('$userKey.selectedLanguage', _selectedLanguage ?? '');
+  await prefs.setBool('$userKey.isLightTheme', _isLightTheme);
+  await prefs.setBool('$userKey.notificationsEnabled', _notificationsEnabled);
+  await prefs.setBool('$userKey.shareLocation', _shareLocation);
+  await prefs.setString('$userKey.selectedReminderFrequency', _selectedReminderFrequency ?? '');
+  await prefs.setString('$userKey.selectedNotificationTone', _selectedNotificationTone ?? '');
+  await prefs.setStringList('$userKey.preferredNotificationTimes', _preferredNotificationTimes);
+  await prefs.setStringList('$userKey.preferredCommunicationMethods', _preferredCommunicationMethods);
+}
+
 
   Future<Map<String, dynamic>?> readUserData() async {
     final prefs = await SharedPreferences.getInstance();
