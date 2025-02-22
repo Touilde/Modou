@@ -1,7 +1,13 @@
-2025/02/22-18:21:28.166 b203 Reusing MANIFEST /private/var/folders/5z/x273r2l11dq7gz0jsls5cs100000gn/T/flutter_tools.2vsjKb/flutter_tools_chrome_device.x6we8e/Default/shared_proto_db/MANIFEST-000001
-2025/02/22-18:21:28.168 b203 Recovering log #9
-2025/02/22-18:21:28.168 b203 Reusing old log /private/var/folders/5z/x273r2l11dq7gz0jsls5cs100000gn/T/flutter_tools.2vsjKb/flutter_tools_chrome_device.x6we8e/Default/shared_proto_db/000009.log 
-2025/02/22-18:21:28.168 b203 Delete type=0 #6
-2025/02/22-18:21:28.168 b203 Delete type=0 #4
-2025/02/22-18:21:28.168 b203 Delete type=0 #3
-2025/02/22-18:21:28.168 b203 Delete type=2 #5
+2025/02/22-19:38:46.671 8303 Reusing MANIFEST /private/var/folders/5z/x273r2l11dq7gz0jsls5cs100000gn/T/flutter_tools.Rvt68l/flutter_tools_chrome_device.44zCVC/Default/shared_proto_db/MANIFEST-000001
+2025/02/22-19:38:46.671 8303 Recovering log #12
+2025/02/22-19:38:46.671 8303 Reusing old log /private/var/folders/5z/x273r2l11dq7gz0jsls5cs100000gn/T/flutter_tools.Rvt68l/flutter_tools_chrome_device.44zCVC/Default/shared_proto_db/000012.log 
+2025/02/22-19:38:46.672 8303 Delete type=0 #6
+2025/02/22-19:38:46.672 8303 Delete type=0 #4
+2025/02/22-19:38:46.672 8303 Delete type=0 #3
+2025/02/22-19:38:46.672 8303 Delete type=2 #15
+2025/02/22-19:38:46.672 8303 Delete type=2 #14
+2025/02/22-19:38:46.672 8303 Delete type=2 #5
+2025/02/22-19:38:46.672 8303 Delete type=0 #9
+2025/02/22-19:38:46.673 ae03 Compacting 4@0 + 0@1 files
+2025/02/22-19:38:46.676 ae03 compacted to: files[ 4 0 0 0 0 0 0 ]
+2025/02/22-19:38:46.676 ae03 Compaction error: IO error: /private/var/folders/5z/x273r2l11dq7gz0jsls5cs100000gn/T/flutter_tools.Rvt68l/flutter_tools_chrome_device.44zCVC/Default/shared_proto_db/000003.ldb: File not found. (ChromeMethodBFE: 8::NewRandomAccessFile::4)
