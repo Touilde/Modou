@@ -227,6 +227,7 @@ class SignUpPage extends StatelessWidget {
                         ),
                         onPressed: () {
                           // Navigate to login page
+                          Navigator.pushNamed(context, '/login');
                         },
                         child: const Text(
                           'Se connecter',
