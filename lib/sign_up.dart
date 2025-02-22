@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'parameters.dart';
+import 'api_service.dart'; // Importer le service API
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -11,13 +12,39 @@ class SignUpPage extends StatelessWidget {
     final _emailController = TextEditingController();
     final _passwordController = TextEditingController();
 
-    void _register() {
+    Future<void> _register() async {
       if (_formKey.currentState!.validate()) {
-        // Navigate to parameters page
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ParametersPage()),
+        final response = await ApiService.registerUser(
+          _emailController.text,
+          _passwordController.text,
         );
+
+        if (response.statusCode == 201) {
+          // Navigate to parameters page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ParametersPage()),
+          );
+        } else {
+          // Show alert dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Erreur'),
+                content: Text('Erreur lors de l\'inscription. Veuillez réessayer.'),
+                actions: [
+                  TextButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
       } else {
         // Show alert dialog
         showDialog(

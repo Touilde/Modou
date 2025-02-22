@@ -7,8 +7,11 @@ environment:
   sdk: ^3.5.4
 
 dependencies:
+  http: ^0.13.3
+  flutter_dotenv: ^5.0.2
   flutter:
     sdk: flutter
+    
 
 dev_dependencies:
   flutter_test:
@@ -19,3 +22,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo.png
+    - assets/config.json
