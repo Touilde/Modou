@@ -13,16 +13,17 @@ class ApiService {
     apiUrl = config['API_URL'];
   }
 
-  static Future<http.Response> registerUser(String email, String password) async {
+  static Future<http.Response> registerUser(String email, String password, String username) async {
   
   final response = await http.post(
-    Uri.parse('$apiUrl/users'),
+    Uri.parse('$apiUrl/users/sign-up'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
     body: jsonEncode(<String, String>{
       'email': email,
       'password': password,
+      "username": username,
     }),
   );
 

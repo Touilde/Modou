@@ -17,6 +17,7 @@ class SignUpPage extends StatelessWidget {
         final response = await ApiService.registerUser(
           _emailController.text,
           _passwordController.text,
+          _usernameController.text,
         );
 
         if (response.statusCode == 201) {
