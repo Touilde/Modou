@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'relations.dart'; // Importer la page RelationsPage
-import 'calendar.dart'; // Importer la page CalendarPage
-import 'meetings.dart'; // Importer la page MeetingsPage
-import 'notification.dart'; // Importer la page NotificationsPage
-import 'profil.dart'; // Importer la page ProfilePage
-import 'activities.dart'; // Importer la page ActivitiesPage
-
+import 'relations.dart';
+import 'calendar.dart';
+import 'meetings.dart';
+import 'notification.dart';
+import 'profil.dart';
+import 'activities.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -16,46 +15,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  List<String> _selectedAdvice = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedAdvice = _getRandomAdvice();
-  }
-
-  // Fonction pour tirer au sort trois conseils parmi la liste
-  static const List<String> conseils = [
-    'Prenez le temps de vous détendre.',
-    'Faites de l\'exercice régulièrement.',
-    'Mangez sainement.',
-    'Dormez suffisamment.',
-    'Restez hydraté.',
-    'Lisez un livre.',
-    'Apprenez quelque chose de nouveau.',
-    'Passez du temps avec vos proches.',
-    'Pratiquez la méditation.',
-    'Évitez le stress inutile.',
-    'Fixez-vous des objectifs.',
-    'Soyez reconnaissant.',
-    'Aidez les autres.',
-    'Prenez des pauses régulières.',
-    'Écoutez de la musique apaisante.',
-    'Passez du temps dans la nature.',
-    'Gardez une attitude positive.',
-    'Développez une routine quotidienne.',
-    'Soyez organisé.',
-    'Prenez soin de votre santé mentale.'
-  ];
-
-  List<String> _getRandomAdvice() {
-    final random = Random();
-    final adviceSet = <String>{};
-    while (adviceSet.length < 3) {
-      adviceSet.add(conseils[random.nextInt(conseils.length)]);
-    }
-    return adviceSet.toList();
-  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -78,13 +37,13 @@ class _HomePageState extends State<HomePage> {
       case 2:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => ActivitiesPage()),
+          MaterialPageRoute(builder: (context) => const ActivitiesPage()),
         );
         break;
       case 3:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MeetingsPage()),
+          MaterialPageRoute(builder: (context) => const MeetingsPage()),
         );
         break;
     }
@@ -92,43 +51,49 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double margin = 16.0;
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.notifications, color: Colors.black),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NotificationPage()),
+            );
+          },
+        ),
         title: const Text(
           'Modou',
           style: TextStyle(
             fontFamily: 'Pacifico',
-            fontSize: 24,
+            fontSize: 28,
+            fontWeight: FontWeight.normal,
+            color: Colors.black,
           ),
         ),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.notifications),
-          onPressed: () {
-            // Navigation vers la page NotificationsPage
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NotificationPage()),
-            );
-          },
-        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.person),
+            icon: const Icon(Icons.person, color: Colors.black),
             onPressed: () {
-              // Navigation vers la page ProfilePage
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfilPage()),
+                MaterialPageRoute(builder: (context) => const ProfilPage()),
               );
             },
           ),
         ],
       ),
+      backgroundColor: const Color(0xFFF6F2ED),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'Prochain évènement',
@@ -138,24 +103,81 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Navigation vers la page CalendarPage
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CalendarPage()),
-                );
-              },
-              child: const Text('Voir le calendrier'),
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFF90afa6),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: const [
+                        Icon(Icons.calendar_today, color: Colors.white),
+                        SizedBox(width: 8),
+                        Text(
+                          '14 mars 2025 à 16h',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Café avec Mathilde ☕',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF795548),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          child: const Text('Modifier'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             const Text(
               'Suggestions',
               style: TextStyle(
+                color: Color.fromARGB(255, 0, 0, 0),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 10),
+            // Card with dynamic width based on screen size
+            SuggestionCard(
+              text:
+                  "Ça fait longtemps que vous n'avez pas parlé à Paul. Pourquoi ne pas lui proposer un verre 🍹 ?",
+              screenWidth: screenWidth,
+              margin: margin,
+            ),
+            SuggestionCard(
+              text:
+                  "C'est le demi-anniversaire de Laëtitia, envoye lui un message pour lui souhaiter ! 🎉",
+              screenWidth: screenWidth,
+              margin: margin,
+            ),
+            SuggestionCard(
+              text:
+                  "C'est dimanche, pourquoi pas une balade? Pauline aime les escapades nature. 🌳",
+              screenWidth: screenWidth,
+              margin: margin,
+            ),
+            const SizedBox(height: 20),
             const Text(
               'Conseils',
               style: TextStyle(
@@ -163,20 +185,41 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // Affichage des conseils tirés au sort
-            ..._selectedAdvice.map(_buildAdviceCard),
+            const SizedBox(height: 10),
+            // Card with dynamic width based on screen size
+            AdviceCard(
+              text:
+                  "Les messages vocaux sont souvent perçus comme plus chaleureux que les SMS. 🔔",
+              screenWidth: screenWidth,
+              margin: margin,
+            ),
+            AdviceCard(
+              text:
+                  "Réservez un moment chaque semaine pour passer un appel à un proche. 📞",
+              screenWidth: screenWidth,
+              margin: margin,
+            ),
+            AdviceCard(
+              text:
+                  "N'hésitez pas à poser une question simple, ça brise la glace (sans trop de pression). 🧊",
+              screenWidth: screenWidth,
+              margin: margin,
+            ),
           ],
         ),
       ),
-      // Footer avec le BottomNavigationBar
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.white, // Fond du footer en blanc
+        ),
+        child: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
+            icon: Icon(Icons.people),
             label: 'Proches',
           ),
           BottomNavigationBarItem(
@@ -184,28 +227,63 @@ class _HomePageState extends State<HomePage> {
             label: 'Activités',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
+            icon: Icon(Icons.groups),
             label: 'Rencontre',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.brown,
+        selectedItemColor: const Color(0xFF795548),
         unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
         onTap: _onItemTapped,
+      ),
       ),
     );
   }
+}
 
-  // Fonction pour construire une carte de conseil
-  Widget _buildAdviceCard(String text) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      child: Container(
-        width: double.infinity, // Largeur fixe pour les cartes
-        padding: const EdgeInsets.all(10.0),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 16),
+class SuggestionCard extends StatelessWidget {
+  const SuggestionCard({super.key, required this.text, required this.screenWidth, required this.margin});
+
+  final String text;
+  final double screenWidth;
+  final double margin;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: screenWidth - 2 * margin, // Largeur = largeur de l'écran - deux marges
+      margin: EdgeInsets.symmetric(vertical: 5), // Marge verticale entre les cartes
+      child: Card(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(text),
+        ),
+      ),
+    );
+  }
+}
+
+class AdviceCard extends StatelessWidget {
+  const AdviceCard({super.key, required this.text, required this.screenWidth, required this.margin});
+
+  final String text;
+  final double screenWidth;
+  final double margin;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: screenWidth - 2 * margin, // Largeur = largeur de l'écran - deux marges
+      margin: EdgeInsets.symmetric(vertical: 5), // Marge verticale entre les cartes
+      child: Card(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(text),
         ),
       ),
     );

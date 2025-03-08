@@ -136,29 +136,30 @@ class _RelationsPageState extends State<RelationsPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Proches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.extension),
-            label: 'Activités',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Rencontre',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.brown,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-      ),
+  items: const <BottomNavigationBarItem>[
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home),
+      label: 'Accueil',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.people),
+      label: 'Proches',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.extension),
+      label: 'Activités',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.groups),
+      label: 'Rencontre',
+    ),
+  ],
+  currentIndex: _selectedIndex,
+  selectedItemColor: const Color(0xFF795548),
+  unselectedItemColor: Colors.grey,
+  showUnselectedLabels: true,
+  onTap: _onItemTapped,
+),
     );
   }
 }

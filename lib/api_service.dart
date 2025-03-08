@@ -31,7 +31,7 @@ class ApiService {
 }
 static Future<String?> login(String email, String password) async {
   final response = await http.post(
-    Uri.parse('$apiUrl/users/sign-in'),
+    Uri.parse('$apiUrl/users'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -41,7 +41,7 @@ static Future<String?> login(String email, String password) async {
     }),
   );
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 201) {
     // Si la connexion est réussie, on retourne le token JWT
     return response.body; // Le corps de la réponse contient le token
   } else {

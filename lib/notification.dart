@@ -88,7 +88,7 @@ class _NotificationPageState extends State<NotificationPage> {
         child: const Text('Notifications Page'),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Accueil',

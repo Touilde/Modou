@@ -87,14 +87,14 @@ class _MeetingsPageState extends State<MeetingsPage> {
       body: Center(
         child: const Text('Meetings Page'),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
+     bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
+            icon: Icon(Icons.people),
             label: 'Proches',
           ),
           BottomNavigationBarItem(
@@ -102,13 +102,14 @@ class _MeetingsPageState extends State<MeetingsPage> {
             label: 'Activités',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
+            icon: Icon(Icons.groups),
             label: 'Rencontre',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.brown,
+        selectedItemColor: const Color(0xFF795548),
         unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
         onTap: _onItemTapped,
       ),
     );
