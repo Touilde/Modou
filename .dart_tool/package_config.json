@@ -128,6 +128,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///Users/juliepetetin/.pub-cache/hosted/pub.dev/intl-0.20.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "js",
       "rootUri": "file:///Users/juliepetetin/.pub-cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
@@ -254,6 +260,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "simple_gesture_detector",
+      "rootUri": "file:///Users/juliepetetin/.pub-cache/hosted/pub.dev/simple_gesture_detector-0.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/juliepetetin/Library/Mobile%20Documents/com~apple~CloudDocs/MasterSiencesco/S9/dossier%20sans%20titre/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -282,6 +294,12 @@
       "rootUri": "file:///Users/juliepetetin/.pub-cache/hosted/pub.dev/string_scanner-1.3.0",
       "packageUri": "lib/",
       "languageVersion": "3.1"
+    },
+    {
+      "name": "table_calendar",
+      "rootUri": "file:///Users/juliepetetin/.pub-cache/hosted/pub.dev/table_calendar-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "term_glyph",
@@ -332,7 +350,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2025-02-22T18:06:57.630058Z",
+  "generated": "2025-03-08T10:26:56.819330Z",
   "generator": "pub",
   "generatorVersion": "3.6.2",
   "flutterRoot": "file:///Users/juliepetetin/Library/Mobile%20Documents/com~apple~CloudDocs/MasterSiencesco/S9/dossier%20sans%20titre/flutter",
