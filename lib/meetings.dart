@@ -87,7 +87,11 @@ class _MeetingsPageState extends State<MeetingsPage> {
       body: Center(
         child: const Text('Meetings Page'),
       ),
-     bottomNavigationBar: BottomNavigationBar(
+     bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.white, // Fond du footer en blanc
+        ),
+        child: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -111,6 +115,7 @@ class _MeetingsPageState extends State<MeetingsPage> {
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         onTap: _onItemTapped,
+      ),
       ),
     );
   }

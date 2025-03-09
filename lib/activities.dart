@@ -230,14 +230,18 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.white, // Fond du footer en blanc
+        ),
+        child: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
+            icon: Icon(Icons.people),
             label: 'Proches',
           ),
           BottomNavigationBarItem(
@@ -245,14 +249,16 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
             label: 'Activités',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
+            icon: Icon(Icons.groups),
             label: 'Rencontre',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.brown,
+        selectedItemColor: const Color(0xFF795548),
         unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
         onTap: _onItemTapped,
+      ),
       ),
     );
   }

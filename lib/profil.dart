@@ -87,7 +87,11 @@ class _ProfilPageState extends State<ProfilPage> {
       body: Center(
         child: const Text('Profil Page'),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.white, // Fond du footer en blanc
+        ),
+        child: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -111,6 +115,7 @@ class _ProfilPageState extends State<ProfilPage> {
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         onTap: _onItemTapped,
+      ),
       ),
     );
   }
