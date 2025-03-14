@@ -26,6 +26,10 @@ class _LoginPageState extends State<LoginPage> {
       final storage = FlutterSecureStorage();
       await storage.write(key: 'auth_token', value: token);
 
+      setState(() {
+        _errorMessage = ''; // Réinitialiser le message d'erreur
+      });
+
       // Rediriger vers la page d'accueil
       Navigator.pushReplacement(
         context,
@@ -44,8 +48,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFDF6F0),
       appBar: AppBar(
-        title: Text('Login'),
+        backgroundColor: const Color(0xFFFDF6F0),
+        title: Text('Se connecter'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -55,44 +61,85 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  return null;
-                },
-              ),
+                decoration: InputDecoration(
+                    labelText: 'Email',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _login,
-                child: Text('Login'),
-              ),
-              if (_errorMessage.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    _errorMessage,
-                    style: TextStyle(color: Colors.red),
+                decoration: InputDecoration(
+                    labelText: 'Mot de passe',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide.none,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Veuillez entrer un mot de passe';
+                    }
+                    return null;
+                  },
+                ),
+              const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.brown,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Back'),
+                onPressed: _login,
+                child: const Text(
+                  'Se connecter',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
               ),
+            ),
+            const SizedBox(height: 20),
+            if (_errorMessage.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  _errorMessage,
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Retour'),
+              style: TextButton.styleFrom(
+              foregroundColor: Colors.brown,
+            ),
+            ),
             ],
           ),
         ),

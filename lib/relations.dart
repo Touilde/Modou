@@ -6,6 +6,7 @@ import 'meetings.dart';
 import 'notification.dart';
 import 'profil.dart';
 import 'activities.dart';
+import 'AddRelation.dart';
 
 
 class RelationsPage extends StatefulWidget {
@@ -160,7 +161,6 @@ class _RelationsPageState extends State<RelationsPage> {
                 color: const Color(0xFFF6F2ED),
               ),
             ),
-            const SizedBox(height: 10),
             TextField(
               decoration: InputDecoration(
                 hintText: 'Rechercher un proche',
@@ -181,6 +181,7 @@ class _RelationsPageState extends State<RelationsPage> {
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 80), 
                 itemCount: _proches.length,
                 itemBuilder: (context, index) {
                   final proche = _proches[index];
@@ -224,11 +225,23 @@ class _RelationsPageState extends State<RelationsPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Action to add a new proche
-          print("Add new proche");
+        onPressed: () async {
+          final newProche = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddRelation()),
+          );
+
+          if (newProche != null && newProche is Proche) {
+            setState(() {
+              _proches.add(newProche);
+            });
+          }
         },
-        child: const Icon(Icons.add),
+        backgroundColor: const Color(0xFFF6F2ED), // Beige
+        child: const Icon(
+          Icons.add,
+          color: Color(0xFF795548), // Brun
+          ),
       ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
@@ -318,7 +331,7 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
   late TextEditingController _distanceController;
   late TextEditingController _favoriteActivitiesController;
   late TextEditingController _interactionModeController;
-   late TextEditingController _imageNameController;
+  late TextEditingController _imageNameController;
 
   // final ImagePicker _picker = ImagePicker(); // Instance of ImagePicker
 
@@ -331,8 +344,6 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
     _favoriteActivitiesController =
         TextEditingController(text: widget.proche.favoriteActivities.join(', '));
     _interactionModeController = TextEditingController(text: widget.proche.interactionMode);
-     _imageNameController = TextEditingController(text: widget.proche.imageName);
-
   }
 
   @override
@@ -342,10 +353,26 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
     _distanceController.dispose();
     _favoriteActivitiesController.dispose();
     _interactionModeController.dispose();
-     _imageNameController.dispose();
     super.dispose();
   }
-
+    Widget _buildTextField(TextEditingController controller, String label) {
+        return TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            labelText: label,
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+          ),
+        );
+      }
 
   @override
   Widget build(BuildContext context) {
@@ -366,7 +393,7 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
                 favoriteActivities:
                     _favoriteActivitiesController.text.split(',').map((e) => e.trim()).toList(),
                 interactionMode: _interactionModeController.text,
-                imageName:  _imageNameController.text
+                imageName:   widget.proche.imageName,
 
               );
               widget.onProcheUpdated(updatedProche);
@@ -379,33 +406,17 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-             _buildProcheAvatar(widget.proche),
+            _buildProcheAvatar(widget.proche),
             const SizedBox(height: 16),
-            TextFormField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Nom'),
-            ),
-            TextFormField(
-              controller: _relationshipController,
-              decoration: const InputDecoration(labelText: 'Lien avec vous'),
-            ),
-            TextFormField(
-              controller: _distanceController,
-              decoration: const InputDecoration(labelText: 'Distance'),
-            ),
-            TextFormField(
-              controller: _favoriteActivitiesController,
-              decoration:
-                  const InputDecoration(labelText: 'Activités préférées (séparées par des virgules)'),
-            ),
-            TextFormField(
-              controller: _interactionModeController,
-              decoration: const InputDecoration(labelText: 'Mode d\'interaction préféré'),
-            ),
-            TextFormField(
-              controller: _imageNameController,
-              decoration: const InputDecoration(labelText: 'Nom de fichier image'),
-            ),
+            _buildTextField(_nameController, 'Nom'),
+            const SizedBox(height: 12),
+            _buildTextField(_relationshipController, 'Lien avec vous'),
+            const SizedBox(height: 12),
+            _buildTextField(_distanceController, 'Distance'),
+            const SizedBox(height: 12),
+            _buildTextField(_favoriteActivitiesController, 'Activités préférées'),
+            const SizedBox(height: 12),
+            _buildTextField(_interactionModeController, 'Mode d\'interaction préféré'),
           ],
         ),
       ),
