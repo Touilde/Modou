@@ -69,7 +69,7 @@ class SignUpPage extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFDF6F0),
+      backgroundColor: const Color(0xFFF6F2ED),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 48.0),

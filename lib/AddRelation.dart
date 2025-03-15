@@ -56,30 +56,49 @@ class _AddRelationState extends State<AddRelation> {
       appBar: AppBar(
         title: const Text('Ajouter un proche'),
         backgroundColor: const Color(0xFFF6F2ED),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: _saveProche,
-          ),
-        ],
       ),
       body: Container(
         color: const Color(0xFFF6F2ED), // Fond beige
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
+        child : Column(
           children: [
-            _buildTextField(_nameController, 'Nom'),
-            const SizedBox(height: 12),
-            _buildTextField(_relationshipController, 'Relation'),
-            const SizedBox(height: 12),
-            _buildTextField(_distanceController, 'Distance'),
-            const SizedBox(height: 12),
-            _buildTextField(_favoriteActivitiesController, 'Activités préférées'),
-            const SizedBox(height: 12),
-            _buildTextField(_interactionModeController, 'Mode d\'interaction'),
-          ],
-        ),
+            Expanded(
+              child: ListView(
+                children: [
+                  _buildTextField(_nameController, 'Nom'),
+                  const SizedBox(height: 12),
+                  _buildTextField(_relationshipController, 'Relation'),
+                  const SizedBox(height: 12),
+                  _buildTextField(_distanceController, 'Distance'),
+                  const SizedBox(height: 12),
+                  _buildTextField(_favoriteActivitiesController, 'Activités préférées'),
+                  const SizedBox(height: 12),
+                  _buildTextField(_interactionModeController, 'Mode d\'interaction'),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.brown,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                    onPressed: _saveProche,
+                    child: const Text(
+                      'Enregistrer',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
       ),
     );
   }
 }
+

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'home.dart'; // Importer la page HomePage
-import 'relations.dart'; // Importer la page RelationsPage
-import 'calendar.dart'; // Importer la page CalendarPage
-import 'meetings.dart'; // Importer la page MeetingsPage
-import 'notification.dart'; // Importer la page NotificationsPage
-import 'activities.dart'; // Importer la page ActivitiesPage
+import 'home.dart';
+import 'relations.dart';
+import 'calendar.dart';
+import 'meetings.dart';
+import 'notification.dart';
+import 'activities.dart';
+import 'parameters.dart'; // Import de la page paramètres
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});
@@ -52,9 +53,10 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF6F2ED), 
       appBar: AppBar(
         title: const Text(
-          'Modou',
+          'Profil',
           style: TextStyle(
             fontFamily: 'Pacifico',
             fontSize: 24,
@@ -64,58 +66,92 @@ class _ProfilPageState extends State<ProfilPage> {
         leading: IconButton(
           icon: const Icon(Icons.notifications),
           onPressed: () {
-            // Navigation vers la page NotificationsPage
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>  NotificationPage()),
+              MaterialPageRoute(builder: (context) => NotificationPage()),
             );
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              // Navigation vers la page ProfilePage
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilPage()),
-              );
-            },
-          ),
-        ],
       ),
       body: Center(
-        child: const Text('Profil Page'),
+        child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Avatar
+            const CircleAvatar(
+              radius: 50,
+              backgroundImage: AssetImage('images/Avatar.png'), // Remplace par ton image
+            ),
+            const SizedBox(height: 10),
+
+            // Nom et Bio
+            const Text(
+              'Modou', // Nom du profil
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 5),
+            const Text(
+              'Passionné de technologie et de rencontres',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            const SizedBox(height: 20),
+
+            // Bouton Paramètres
+            ElevatedButton.icon(
+              icon: const Icon(Icons.settings, color: Colors.white,),
+              label: const Text("Paramètres"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.brown, // Couleur du bouton
+                foregroundColor: Colors.white, // Couleur du texte
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                textStyle: const TextStyle(fontSize: 18),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ParametersPage()),
+                );
+              },
+            ),
+          ],
+        ),
       ),
+    ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.white, // Fond du footer en blanc
+          canvasColor: Colors.white,
         ),
         child: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Proches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.extension),
-            label: 'Activités',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'Rencontre',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF795548),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
-      ),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Accueil',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: 'Proches',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.extension),
+              label: 'Activités',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.groups),
+              label: 'Rencontre',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: const Color(0xFF795548),
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
-import 'home.dart'; // Importer la page HomePage
-import 'relations.dart'; // Importer la page RelationsPage
-import 'calendar.dart'; // Importer la page CalendarPage
-import 'meetings.dart'; // Importer la page MeetingsPage
-import 'notification.dart'; // Importer la page NotificationsPage
-import 'profil.dart'; // Importer la page ProfilePage
+import 'home.dart';
+import 'relations.dart';
+import 'calendar.dart';
+import 'meetings.dart';
+import 'notification.dart';
+import 'profil.dart';
 
 class ActivitiesPage extends StatefulWidget {
-  const ActivitiesPage({super.key});
+  const ActivitiesPage({Key? key}) : super(key: key);
 
   @override
   _ActivitiesPageState createState() => _ActivitiesPageState();
@@ -16,101 +15,36 @@ class ActivitiesPage extends StatefulWidget {
 
 class _ActivitiesPageState extends State<ActivitiesPage> {
   int _selectedIndex = 2;
-  List<String> _selectedActivities = [];
+  String? _selectedActivity;
 
-  @override
-  void initState() {
-    super.initState();
-    _selectedActivities = _getRandomActivities();
-  }
+  final List<String> _activities = [
+    '🍕 Atelier pizza maison',
+    '🖌️ Atelier peinture ou dessin',
+    '🎲 Soirée jeux de société',
+    '🧗 Escalade en salle',
+    '🍃 Promenade dans un parc',
+    '🎭 Spectacle ou théâtre local',
+    '🏓 Ping-pong ou billard',
+    '📚 Lecture à voix haute',
+    '🎤 Karaoké',
+    '🥾 Randonnée facile',
+  ];
 
-  // Fonction pour tirer au sort cinq activités parmi la liste
-  List<String> _getRandomActivities() {
-    final random = Random();
-    final activitySet = <String>{};
-    while (activitySet.length < 5) {
-      final activities = [
-        '🍕 Atelier pizza maison',
-        '🖌️ Atelier peinture',
-        '🎬 Cinéma',
-        '🎭 Théâtre',
-        '📚 Lecture',
-        '🥾 Randonnée',
-        '🍳 Cuisine',
-        '🎨 Peinture',
-        '🎵 Musique',
-        '💃 Danse',
-        '📸 Photographie',
-        '🌱 Jardinage',
-        '🔨 Bricolage',
-        '🎮 Jeux vidéo',
-        '🎤 Karaoké',
-        '🧘‍♀️ Méditation'
-      ];
+  final List<String> _jeux = [
+    '🎲 Dice party',
+    '🃏 Crapette',
+    '♟️ Échecs',
+    '🅰️ Scrabble',
+    '♠️ Poker',
+  ];
 
-      activitySet.add(activities[random.nextInt(activities.length)]);
-    }
-    return activitySet.toList();
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const RelationsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ActivitiesPage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MeetingsPage()),
-        );
-        break;
-    }
-  }
-
-  void _showCopyPopup() {
-    final snackBar = SnackBar(
-      content: Row(
-        children: const [
-          Icon(Icons.copy, color: Colors.white),
-          SizedBox(width: 10),
-          Text('Lien copié'),
-        ],
-      ),
-      duration: const Duration(seconds: 2),
-      backgroundColor: Colors.black.withOpacity(0.7),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void _navigateToPlanifierPage(String activity) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PlanifierPage(
-          initialActivity: activity,
-        ),
-      ),
-    );
-  }
+  final List<String> _loisirs = [
+    '🖥️ Film synchronisée',
+    '🎙️ Discussions thématiques',
+    '🎭 Théâtre',
+    '📚 Lecture',
+    '🎵 Musique',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +61,6 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         leading: IconButton(
           icon: const Icon(Icons.notifications),
           onPressed: () {
-            // Navigation vers la page NotificationsPage
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const NotificationPage()),
@@ -138,7 +71,6 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              // Navigation vers la page ProfilePage
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ProfilPage()),
@@ -147,94 +79,155 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Text(
-              'Activités',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Text(
+                'Activités',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Voici quelques activités tirées au hasard :',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 10),
-            ..._selectedActivities.map((activity) => GestureDetector(
-              onTap: () => _navigateToPlanifierPage(activity.replaceAll(RegExp(r'^[^\w\s]+'), '')),
-              child: Text('$activity', style: const TextStyle(fontSize: 16)),
-            )),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Logique pour "Aide à choisir"
-              },
-              child: const Text('Aide à choisir'),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                // Navigation vers la page PlanifierPage
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PlanifierPage()),
-                );
-              },
-              child: const Text('Planifier une activité'),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'En ligne',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 5),
+              SizedBox(
+                height: 160, // Ajustez la hauteur selon vos besoins pour le défilement vertical
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,  // Défilement vertical
+                  itemCount: _activities.length,
+                  itemBuilder: (context, index) {
+                    final activity = _activities[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3.0),
+                      child: Text(
+                        activity,
+                        style: TextStyle(fontSize: 18), // Ajuste la taille ici
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Clique sur l\'activité pour copier un lien à partager à ton/tes proches',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'Jeux',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Aide à choisir la logique ici
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF795548),
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('Aide à choisir'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PlanifierPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF795548),
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('Planifier un RDV'),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 10),
-            _buildActivityItem('♟️ Échecs'),
-            _buildActivityItem('🎲 Dice Party'),
-            _buildActivityItem('🅰️ Scrabble'),
-            _buildActivityItem('🖌️ Pictionary'),
-            _buildActivityItem('♠️ Poker'),
-            const SizedBox(height: 20),
-            const Text(
-              'Loisirs',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 10),
+              const Text(
+                'En ligne',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            _buildActivityItem('🎬 Cinéma'),
-            _buildActivityItem('💬 Discussions thématiques'),
-            _buildActivityItem('🎭 Théâtre'),
-            _buildActivityItem('📚 Lecture'),
-          ],
+              const SizedBox(height: 4),
+              const Text(
+                "Clique sur l'activité pour copier un lien à partager à ton/tes proches.",
+                style: TextStyle(fontSize: 14, color: Colors.black54),
+              ),
+              const SizedBox(height: 5),
+              const Text(
+                'Jeux',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 120, // Ajustez la hauteur
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: _jeux.length,
+                  itemBuilder: (context, index) {
+                    final jeu = _jeux[index];
+                    return _buildActivityItem(
+                      jeu,
+                      onTap: () {
+                        //Logique pour copier le lien
+                        final snackBar = SnackBar(
+                          content: Row(
+                            children: const [
+                              Icon(Icons.copy, color: Colors.white),
+                              SizedBox(width: 10),
+                              Text('Lien copié'),
+                            ],
+                          ),
+                          duration: const Duration(seconds: 2),
+                          backgroundColor: Colors.black.withOpacity(0.7),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 5),
+              const Text(
+                'Loisirs',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 120, // Ajustez la hauteur
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: _loisirs.length,
+                  itemBuilder: (context, index) {
+                    final loisir = _loisirs[index];
+                    return _buildActivityItem(
+                      loisir,
+                      onTap: () {
+                        //Logique pour copier le lien
+                        final snackBar = SnackBar(
+                          content: Row(
+                            children: const [
+                              Icon(Icons.copy, color: Colors.white),
+                              SizedBox(width: 10),
+                              Text('Lien copié'),
+                            ],
+                          ),
+                          duration: const Duration(seconds: 2),
+                          backgroundColor: Colors.black.withOpacity(0.7),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.white, // Fond du footer en blanc
-        ),
-        child: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -257,20 +250,56 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         selectedItemColor: const Color(0xFF795548),
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
-        onTap: _onItemTapped,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+
+          switch (index) {
+            case 0:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()),
+              );
+              break;
+            case 1:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const RelationsPage()),
+              );
+              break;
+            case 2:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ActivitiesPage()),
+              );
+              break;
+            case 3:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MeetingsPage()),
+              );
+              break;
+          }
+        },
       ),
-      ),
-    );
+      backgroundColor: const Color(0xFFF6F2ED));
   }
 
-  Widget _buildActivityItem(String title) {
-    return ListTile(
-      leading: const Icon(Icons.link),
-      title: Text(title),
-      onTap: () {
-        // Logique pour copier le lien de l'activité
-        _showCopyPopup();
-      },
+  Widget _buildActivityItem(String activity, {VoidCallback? onTap}) {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      child: ListTile(
+        title: Text(activity),
+        onTap: onTap,
+      ),
     );
   }
 }
@@ -483,13 +512,13 @@ class _PlanifierPageState extends State<PlanifierPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
+            icon: Icon(Icons.group),
             label: 'Proches',
           ),
           BottomNavigationBarItem(
@@ -497,14 +526,13 @@ class _PlanifierPageState extends State<PlanifierPage> {
             label: 'Activités',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
+            icon: Icon(Icons.people),
             label: 'Rencontre',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF795548),
+        selectedItemColor: Colors.brown,
         unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
         onTap: _onItemTapped,
       ),
     );

@@ -48,9 +48,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFDF6F0),
+      backgroundColor: const Color(0xFFF6F2ED),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFDF6F0),
+        backgroundColor: const Color(0xFFF6F2ED),
         title: Text('Se connecter'),
       ),
       body: Padding(

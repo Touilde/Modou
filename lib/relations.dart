@@ -374,55 +374,71 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
         );
       }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color(0xFFF6F2ED), // Beige background
+    appBar: AppBar(
       backgroundColor: const Color(0xFFF6F2ED), // Beige background
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF6F2ED), // Beige background
-        title: Text('Détails de ${widget.proche.name}'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {
-              // Save changes
-              final updatedProche = Proche(
-                name: _nameController.text,
-                relationship: _relationshipController.text,
-                distance: _distanceController.text,
-                favoriteActivities:
-                    _favoriteActivitiesController.text.split(',').map((e) => e.trim()).toList(),
-                interactionMode: _interactionModeController.text,
-                imageName:   widget.proche.imageName,
-
-              );
-              widget.onProcheUpdated(updatedProche);
-              Navigator.pop(context); // Go back to the list
-            },
+      title: Text('Détails de ${widget.proche.name}'),
+    ),
+    body: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          _buildProcheAvatar(widget.proche),
+          const SizedBox(height: 16),
+          Expanded(
+            child: ListView(
+              children: [
+                _buildTextField(_nameController, 'Nom'),
+                const SizedBox(height: 12),
+                _buildTextField(_relationshipController, 'Lien avec vous'),
+                const SizedBox(height: 12),
+                _buildTextField(_distanceController, 'Distance'),
+                const SizedBox(height: 12),
+                _buildTextField(_favoriteActivitiesController, 'Activités préférées'),
+                const SizedBox(height: 12),
+                _buildTextField(_interactionModeController, 'Mode d\'interaction préféré'),
+              ],
+            ),
+          ),
+          const SizedBox(height: 32),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.brown,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+              ),
+              onPressed: () {
+                // Save changes
+                final updatedProche = Proche(
+                  name: _nameController.text,
+                  relationship: _relationshipController.text,
+                  distance: _distanceController.text,
+                  favoriteActivities:
+                      _favoriteActivitiesController.text.split(',').map((e) => e.trim()).toList(),
+                  interactionMode: _interactionModeController.text,
+                  imageName: widget.proche.imageName,
+                );
+                widget.onProcheUpdated(updatedProche);
+                Navigator.pop(context); // Go back to the list
+              },
+              child: const Text(
+                'Enregistrer',
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
+            ),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            _buildProcheAvatar(widget.proche),
-            const SizedBox(height: 16),
-            _buildTextField(_nameController, 'Nom'),
-            const SizedBox(height: 12),
-            _buildTextField(_relationshipController, 'Lien avec vous'),
-            const SizedBox(height: 12),
-            _buildTextField(_distanceController, 'Distance'),
-            const SizedBox(height: 12),
-            _buildTextField(_favoriteActivitiesController, 'Activités préférées'),
-            const SizedBox(height: 12),
-            _buildTextField(_interactionModeController, 'Mode d\'interaction préféré'),
-          ],
-        ),
-      ),
-    );
-  }
-
+    ),
+  );
+}
  Widget _buildProcheAvatar(Proche proche) {
 
     final imagePath = 'images/${proche.imageName}'; // Use imageName
