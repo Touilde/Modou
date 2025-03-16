@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'home.dart'; // Importer la page HomePage
-import 'relations.dart'; // Importer la page RelationsPage
-import 'calendar.dart'; // Importer la page CalendarPage
-import 'meetings.dart'; // Importer la page MeetingsPage
-import 'profil.dart'; // Importer la page ProfilePage
-import 'activities.dart'; // Importer la page ActivitiesPage
+import 'package:modou/app_layout.dart';
+import 'home.dart';
+import 'relations.dart';
+import 'meetings.dart';
+import 'profil.dart';
+import 'activities.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -14,108 +14,107 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-  int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  // Liste des notifications (exemples fictifs)
+  final List<Map<String, dynamic>> notifications = [
+    {
+      "icon": Icons.notifications_active,
+      "color": Colors.blue,
+      "title": "Nouveau message",
+      "content": "Pierre vous a envoyé un message.",
+      "time": "Il y a 2 min"
+    },
+    {
+      "icon": Icons.event,
+      "color": Colors.green,
+      "title": "Rappel : Rencontre prévue",
+      "content": "Rencontre avec Sophie demain à 14h.",
+      "time": "Il y a 1 heure"
+    },
+    {
+      "icon": Icons.phone,
+      "color": Colors.orange,
+      "title": "Rappel d'appel",
+      "content": "Vous n'avez pas appelé votre frère depuis 1 semaine.",
+      "time": "Hier"
+    },
+    {
+      "icon": Icons.cake,
+      "color": Colors.purple,
+      "title": "Anniversaire",
+      "content": "C'est l'anniversaire de Laura aujourd'hui ! 🎉",
+      "time": "Aujourd'hui"
+    },
+    {
+      "icon": Icons.group,
+      "color": Colors.red,
+      "title": "Nouvelle suggestion",
+      "content": "Vous devriez recontacter Emma, cela fait longtemps !",
+      "time": "Il y a 3 jours"
+    },
+  ];
 
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const RelationsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ActivitiesPage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MeetingsPage()),
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF6F2ED),
       appBar: AppBar(
-        title: const Text(
-          'Modou',
-          style: TextStyle(
-            fontFamily: 'Pacifico',
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
+        backgroundColor: Color(0xFFF6F2ED),
+        elevation: 2,
         leading: IconButton(
-          icon: const Icon(Icons.notifications),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            // Navigation vers la page NotificationsPage
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NotificationPage()),
-            );
+            Navigator.pop(context);
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              // Navigation vers la page ProfilePage
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilPage()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: const Text('Notifications Page'),
-      ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.white, // Fond du footer en blanc
+        title: const Text(
+        'Modou',
+        style: TextStyle(
+          fontFamily: 'Pacifico',
+          fontSize: 35,
+          fontWeight: FontWeight.normal,
+          color: Colors.black,
         ),
-        child: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Proches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.extension),
-            label: 'Activités',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'Rencontre',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF795548),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
       ),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Notifications",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+
+            // Liste des notifications
+            Expanded(
+              child: ListView.builder(
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  final notification = notifications[index];
+                  return Card(
+                    color: Colors.white,
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: notification["color"].withOpacity(0.2),
+                        child: Icon(notification["icon"], color: notification["color"]),
+                      ),
+                      title: Text(notification["title"], style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(notification["content"]),
+                      trailing: Text(notification["time"], style: const TextStyle(color: Colors.grey)),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:modou/app_layout.dart';
 import 'home.dart';
-import 'calendar.dart';
 import 'meetings.dart';
 import 'notification.dart';
 import 'profil.dart';
@@ -17,7 +17,6 @@ class RelationsPage extends StatefulWidget {
 }
 
 class _RelationsPageState extends State<RelationsPage> {
-  int _selectedIndex = 1;
   String _searchText = '';
 
   // Sample data for proches (replace with your actual data source)
@@ -80,73 +79,11 @@ class _RelationsPageState extends State<RelationsPage> {
         imageName: 'Pepoune.png'),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const RelationsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ActivitiesPage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MeetingsPage()),
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Modou',
-          style: TextStyle(
-            fontFamily: 'Pacifico',
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.notifications),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NotificationPage()),
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilPage()),
-              );
-            },
-          ),
-        ],
-        backgroundColor: const Color(0xFFF6F2ED), // Beige app bar
-      ),
+      appBar: CustomAppBar(),
       backgroundColor: const Color(0xFFF6F2ED), // Beige background
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -243,36 +180,7 @@ class _RelationsPageState extends State<RelationsPage> {
           color: Color(0xFF795548), // Brun
           ),
       ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.white, // Fond du footer en blanc
-        ),
-        child: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Proches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.extension),
-            label: 'Activités',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'Rencontre',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF795548),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
-      ),
-      ),
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 1),
     );
   }
 
@@ -378,16 +286,19 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
 Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: const Color(0xFFF6F2ED), // Beige background
-    appBar: AppBar(
-      backgroundColor: const Color(0xFFF6F2ED), // Beige background
-      title: Text('Détails de ${widget.proche.name}'),
-    ),
+    appBar: CustomAppBar(), 
+    // Beige background
     body: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          _buildProcheAvatar(widget.proche),
+            Text(
+            'À propos de ${widget.proche.name}',
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           const SizedBox(height: 16),
+          _buildProcheAvatar(widget.proche),
+          const SizedBox(height: 25),
           Expanded(
             child: ListView(
               children: [

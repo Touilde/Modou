@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:modou/app_layout.dart';
 import 'home.dart';
 import 'relations.dart';
-import 'calendar.dart';
 import 'meetings.dart';
 import 'notification.dart';
 import 'activities.dart';
-import 'parameters.dart'; // Import de la page paramètres
+import 'parameters.dart';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});
@@ -15,142 +15,145 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
-  int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const RelationsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => ActivitiesPage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MeetingsPage()),
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF6F2ED), 
+      backgroundColor: const Color(0xFFF6F2ED), 
       appBar: AppBar(
-        title: const Text(
-          'Profil',
-          style: TextStyle(
-            fontFamily: 'Pacifico',
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
+        backgroundColor: const Color(0xFFF6F2ED),
+        elevation: 2,
         leading: IconButton(
-          icon: const Icon(Icons.notifications),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NotificationPage()),
-            );
+            Navigator.pop(context);
           },
         ),
+        title: const Text(
+        'Modou',
+        style: TextStyle(
+          fontFamily: 'Pacifico',
+          fontSize: 35,
+          fontWeight: FontWeight.normal,
+          color: Colors.black,
+        ),
+      ),
+        centerTitle: true,
       ),
       body: Center(
         child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Avatar
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('images/Avatar.png'), // Remplace par ton image
-            ),
-            const SizedBox(height: 10),
-
-            // Nom et Bio
-            const Text(
-              'Modou', // Nom du profil
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Avatar
+              const CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('images/Avatar.png'),
               ),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              'Passionné de technologie et de rencontres',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
-            // Bouton Paramètres
-            ElevatedButton.icon(
-              icon: const Icon(Icons.settings, color: Colors.white,),
-              label: const Text("Paramètres"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.brown, // Couleur du bouton
-                foregroundColor: Colors.white, // Couleur du texte
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                textStyle: const TextStyle(fontSize: 18),
+              // Nom et Bio
+              const Text(
+                'Moudie', // Nom du profil
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ParametersPage()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.white,
-        ),
-        child: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Accueil',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people),
-              label: 'Proches',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.extension),
-              label: 'Activités',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.groups),
-              label: 'Rencontre',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xFF795548),
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-          onTap: _onItemTapped,
+              const SizedBox(height: 5),
+
+              // Statistiques
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5)],
+                ),
+                child: const Column(
+                  children: [
+                    Text("Statistiques", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 10),
+                    Text("🌟 Interactions totales : 120"),
+                    Text("📅 Moyenne d'interactions / semaine : 5"),
+                    Text("📞 Dernier contact : il y a 2 jours"),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Historique des interactions
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 5)],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Historique des interactions", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: ListView(
+                          children: const [
+                            ListTile(
+                              leading: Icon(Icons.call, color: Colors.green),
+                              title: Text("Appel avec Maman"),
+                              subtitle: Text("Durée : 15 min • il y a 3 jours"),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.message, color: Colors.blue),
+                              title: Text("Message envoyé à Pierre"),
+                              subtitle: Text("« Salut, comment tu vas ? » • il y a 1 semaine"),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.people, color: Colors.orange),
+                              title: Text("Rencontre avec Sophie"),
+                              subtitle: Text("Café en terrasse • il y a 2 semaines"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Bouton Paramètres
+              ElevatedButton.icon(
+                icon: const Icon(Icons.settings, color: Colors.white),
+                label: const Text("Paramètres"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.brown,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  textStyle: const TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ParametersPage()));
+                },
+              ),
+              const SizedBox(height: 10),
+
+              // Bouton Déconnexion
+              ElevatedButton.icon(
+                icon: const Icon(Icons.logout, color: Colors.white),
+                label: const Text("Déconnexion"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  textStyle: const TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

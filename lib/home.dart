@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:modou/app_layout.dart';
 import 'dart:math';
 import 'relations.dart';
-import 'calendar.dart';
 import 'meetings.dart';
 import 'notification.dart';
 import 'profil.dart';
@@ -14,40 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const RelationsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ActivitiesPage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MeetingsPage()),
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,40 +21,7 @@ class _HomePageState extends State<HomePage> {
     double margin = 16.0;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.notifications, color: Colors.black),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NotificationPage()),
-            );
-          },
-        ),
-        title: const Text(
-          'Modou',
-          style: TextStyle(
-            fontFamily: 'Pacifico',
-            fontSize: 28,
-            fontWeight: FontWeight.normal,
-            color: Colors.black,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilPage()),
-              );
-            },
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(),
       backgroundColor: const Color(0xFFF6F2ED),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -113,8 +46,8 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: const [
+                    const Row(
+                      children: [
                         Icon(Icons.calendar_today, color: Colors.white),
                         SizedBox(width: 8),
                         Text(
@@ -208,37 +141,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.white, // Fond du footer en blanc
-        ),
-        child: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Proches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.extension),
-            label: 'Activités',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'Rencontre',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF795548),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
-      ),
-      ),
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0),
     );
+
   }
 }
 

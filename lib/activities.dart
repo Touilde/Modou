@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:modou/app_layout.dart';
 import 'home.dart';
 import 'relations.dart';
-import 'calendar.dart';
 import 'meetings.dart';
 import 'notification.dart';
 import 'profil.dart';
@@ -14,8 +14,6 @@ class ActivitiesPage extends StatefulWidget {
 }
 
 class _ActivitiesPageState extends State<ActivitiesPage> {
-  int _selectedIndex = 2;
-  String? _selectedActivity;
 
   final List<String> _activities = [
     '🍕 Atelier pizza maison',
@@ -49,36 +47,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Modou',
-          style: TextStyle(
-            fontFamily: 'Pacifico',
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.notifications),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NotificationPage()),
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilPage()),
-              );
-            },
-          ),
-        ],
-      ),
+      backgroundColor: const Color(0xFFF6F2ED),
+      appBar: CustomAppBar(),
       body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -172,8 +142,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                       onTap: () {
                         //Logique pour copier le lien
                         final snackBar = SnackBar(
-                          content: Row(
-                            children: const [
+                          content: const Row(
+                            children: [
                               Icon(Icons.copy, color: Colors.white),
                               SizedBox(width: 10),
                               Text('Lien copié'),
@@ -208,8 +178,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                       onTap: () {
                         //Logique pour copier le lien
                         final snackBar = SnackBar(
-                          content: Row(
-                            children: const [
+                          content: const Row(
+                            children: [
                               Icon(Icons.copy, color: Colors.white),
                               SizedBox(width: 10),
                               Text('Lien copié'),
@@ -227,67 +197,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
             ],
           ),
         ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Proches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.extension),
-            label: 'Activités',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'Rencontre',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF795548),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-
-          switch (index) {
-            case 0:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
-              break;
-            case 1:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const RelationsPage()),
-              );
-              break;
-            case 2:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ActivitiesPage()),
-              );
-              break;
-            case 3:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MeetingsPage()),
-              );
-              break;
-          }
-        },
-      ),
-      backgroundColor: const Color(0xFFF6F2ED));
-  }
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 2),
+    );  }
 
   Widget _buildActivityItem(String activity, {VoidCallback? onTap}) {
     return Card(
@@ -329,38 +240,6 @@ class _PlanifierPageState extends State<PlanifierPage> {
     }
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const RelationsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ActivitiesPage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MeetingsPage()),
-        );
-        break;
-    }
-  }
 
   void _addAvailability() {
     showDatePicker(
@@ -392,6 +271,19 @@ class _PlanifierPageState extends State<PlanifierPage> {
 
   void _proposeActivity() {
     // Logique pour proposer l'activité à un proche
+    //Logique pour copier le lien
+    final snackBar = SnackBar(
+      content: const Row(
+        children: [
+          Icon(Icons.copy, color: Colors.white),
+          SizedBox(width: 10),
+          Text('Lien copié'),
+        ],
+      ),
+      duration: const Duration(seconds: 2),
+      backgroundColor: Colors.black.withOpacity(0.7),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const ActivitiesPage()),
@@ -401,38 +293,8 @@ class _PlanifierPageState extends State<PlanifierPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Planifier',
-          style: TextStyle(
-            fontFamily: 'Pacifico',
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.notifications),
-          onPressed: () {
-            // Navigation vers la page NotificationsPage
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NotificationPage()),
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              // Navigation vers la page ProfilePage
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilPage()),
-              );
-            },
-          ),
-        ],
-      ),
+      backgroundColor: const Color(0xFFF6F2ED),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -446,45 +308,13 @@ class _PlanifierPageState extends State<PlanifierPage> {
               ),
             ),
             const SizedBox(height: 10),
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: 'Nom du/des proche(s)',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
+            _buildTextField('Nom du/des proche(s)'),
             const SizedBox(height: 10),
-            TextField(
-              controller: _activityController,
-              decoration: InputDecoration(
-                labelText: 'Nom de l\'activité',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
+            _buildTextField('Nom de l\'activité'),
             const SizedBox(height: 10),
-            TextField(
-              controller: _locationController,
-              decoration: InputDecoration(
-                labelText: 'Lieu de l\'activité',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
+            _buildTextField('Lieu de l\'activité'),
             const SizedBox(height: 10),
-            TextField(
-              controller: _durationController,
-              decoration: InputDecoration(
-                labelText: 'Durée de l\'activité',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ),
+            _buildTextField('Durée de l\'activité'),
             const SizedBox(height: 20),
             const Text(
               'Disponibilités',
@@ -494,9 +324,28 @@ class _PlanifierPageState extends State<PlanifierPage> {
               ),
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _addAvailability,
-              child: const Text('Ajouter une disponibilité'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.brown,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                onPressed: _addAvailability,
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(width: 8),
+                    Text(
+                      'Ajouter une disponibilité',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 10),
             ..._selectedDates.map((date) => Text(
@@ -504,37 +353,50 @@ class _PlanifierPageState extends State<PlanifierPage> {
               style: const TextStyle(fontSize: 16),
             )),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _proposeActivity,
-              child: const Text('Proposer l\'activité à un proche'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.brown,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                onPressed: _proposeActivity,
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(width: 8),
+                    Text(
+                      'Proposer l\'activité à un proche',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Proches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.extension),
-            label: 'Activités',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Rencontre',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.brown,
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 2),
     );
   }
 }
+Widget _buildTextField( String label) {
+        return TextFormField(
+          decoration: InputDecoration(
+            labelText: label,
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+          ),
+        );
+      }

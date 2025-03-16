@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:modou/app_layout.dart';
 import 'home.dart'; // Importer la page HomePage
 import 'relations.dart'; // Importer la page RelationsPage
-import 'calendar.dart'; // Importer la page CalendarPage
 import 'notification.dart'; // Importer la page NotificationsPage
 import 'profil.dart'; // Importer la page ProfilePage
 import 'activities.dart'; // Importer la page ActivitiesPage
@@ -54,38 +54,7 @@ class _MeetingsPageState extends State<MeetingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F2ED),
-      appBar: AppBar(
-        title: const Text(
-          'Modou',
-          style: TextStyle(
-            fontFamily: 'Pacifico',
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.notifications),
-          onPressed: () {
-            // Navigation vers la page NotificationsPage
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const NotificationPage()),
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              // Navigation vers la page ProfilePage
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilPage()),
-              );
-            },
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 23), 
         child: Column(
@@ -195,33 +164,7 @@ class _MeetingsPageState extends State<MeetingsPage> {
         ),
       
       
-        bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Proches',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.extension),
-            label: 'Activités',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'Rencontre',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF795548),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        onTap: _onItemTapped,
-      ),
-
+        bottomNavigationBar: const CustomBottomNavBar(currentIndex: 3),
     );
   }
 Widget _buildButton(IconData icon, String text) {

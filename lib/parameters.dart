@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:modou/home.dart'; // Vérifie si AboutMePage est bien dans ce fichier
+
 class ParametersPage extends StatefulWidget {
   const ParametersPage({super.key});
 
   @override
-  _ParametersPageState createState() => _ParametersPageState();
+  State<ParametersPage> createState() => _ParametersPageState();
 }
 
 class _ParametersPageState extends State<ParametersPage> {
@@ -24,7 +26,7 @@ class _ParametersPageState extends State<ParametersPage> {
     _loadPreferences();
   }
 
-  _loadPreferences() async {
+  Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _selectedLanguage = prefs.getString('language') ?? 'Français';
@@ -38,22 +40,23 @@ class _ParametersPageState extends State<ParametersPage> {
     });
   }
 
-  _savePreferences() async {
+  Future<void> _savePreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('language', _selectedLanguage ?? 'Français');
-    await prefs.setBool('theme', _isLightTheme);
-    await prefs.setBool('notifications', _notificationsEnabled);
-    await prefs.setBool('shareLocation', _shareLocation);
-    await prefs.setString('frequency', _selectedReminderFrequency ?? 'Tous les jours');
-    await prefs.setString('notificationTone', _selectedNotificationTone ?? 'Ding');
-    await prefs.setStringList('notificationTimes', _preferredNotificationTimes);
-    await prefs.setStringList('communicationMethods', _preferredCommunicationMethods);
+    prefs
+      ..setString('language', _selectedLanguage ?? 'Français')
+      ..setBool('theme', _isLightTheme)
+      ..setBool('notifications', _notificationsEnabled)
+      ..setBool('shareLocation', _shareLocation)
+      ..setString('frequency', _selectedReminderFrequency ?? 'Tous les jours')
+      ..setString('notificationTone', _selectedNotificationTone ?? 'Ding')
+      ..setStringList('notificationTimes', _preferredNotificationTimes)
+      ..setStringList('communicationMethods', _preferredCommunicationMethods);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5ECE2),
+      backgroundColor: const Color(0xFFF6F2ED),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
@@ -61,20 +64,25 @@ class _ParametersPageState extends State<ParametersPage> {
           const Center(
             child: Text(
               'Modou',
-              style: TextStyle(
-                fontFamily: 'Pacifico',
-                fontSize: 38,
-                fontWeight: FontWeight.bold,
+              style: TextStyle(fontFamily: 'Pacifico', fontSize: 38),
+            ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutMePage()));
+              },
+              child: const Text(
+                'Passer',
+                style: TextStyle(fontSize: 16, decoration: TextDecoration.underline, color: Colors.brown),
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           const Text(
             'Paramètres',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
           _buildDropdown('Langue', _selectedLanguage, ['Français', 'English', 'Español'], (newValue) {
@@ -101,25 +109,35 @@ class _ParametersPageState extends State<ParametersPage> {
               _savePreferences();
             });
           }),
-          _buildDropdown('Fréquence des rappels', _selectedReminderFrequency, ['Tous les jours', '2-3 fois par semaine', 'Une fois par semaine'], (newValue) {
+          _buildDropdown('Fréquence des rappels', _selectedReminderFrequency, [
+            'Tous les jours',
+            '2-3 fois par semaine',
+            'Une fois par semaine'
+          ], (newValue) {
             setState(() {
               _selectedReminderFrequency = newValue;
               _savePreferences();
             });
           }),
-          _buildDropdown('Ton des notifications', _selectedNotificationTone, ['Ding', 'Beep', 'Sonnerie'], (newValue) {
+          _buildDropdown('Ton des notifications', _selectedNotificationTone, [
+            'Humoristique',
+            'Familier',
+            'Neutre'
+          ], (newValue) {
             setState(() {
               _selectedNotificationTone = newValue;
               _savePreferences();
             });
           }),
-          _buildCheckboxGroup('Horaires préférés pour les notifications', ['Matin', 'Après-midi', 'Soir'], _preferredNotificationTimes, (updatedList) {
+          _buildCheckboxGroup('Horaires préférés pour les notifications', ['Matin', 'Après-midi', 'Soir'],
+              _preferredNotificationTimes, (updatedList) {
             setState(() {
               _preferredNotificationTimes = updatedList;
               _savePreferences();
             });
           }),
-          _buildCheckboxGroup('Mode de communication préféré', ['Messages', 'Appels', 'En personne'], _preferredCommunicationMethods, (updatedList) {
+          _buildCheckboxGroup('Mode de communication préféré', ['Messages', 'Appels', 'En personne'],
+              _preferredCommunicationMethods, (updatedList) {
             setState(() {
               _preferredCommunicationMethods = updatedList;
               _savePreferences();
@@ -127,39 +145,19 @@ class _ParametersPageState extends State<ParametersPage> {
           }),
           const SizedBox(height: 20),
           Center(
-            child: Column(
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AboutMePage()),
-                    );
-                  },
-                  child: const Text(
-                    'Valider',
-                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AboutMePage()),
-                    );
-                  },
-                  child: const Text(
-                    'Passer',
-                    style: TextStyle(fontSize: 16, decoration: TextDecoration.underline),
-                  ),
-                ),
-              ],
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.brown,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+              ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutMePage()));
+              },
+              child: const Text(
+                'Enregistrer',
+                style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],
@@ -171,7 +169,7 @@ class _ParametersPageState extends State<ParametersPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: DropdownButtonFormField<String>(
-        value: value,
+        value: items.contains(value) ? value : items.first,
         decoration: InputDecoration(
           labelText: title,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -193,12 +191,13 @@ class _ParametersPageState extends State<ParametersPage> {
     return SwitchListTile(
       title: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
       value: value,
-      activeColor: const Color.fromARGB(255, 59, 177, 0),
+      activeColor: Colors.brown,
       onChanged: onChanged,
     );
   }
 
-  Widget _buildCheckboxGroup(String title, List<String> options, List<String> selectedOptions, ValueChanged<List<String>> onCheckboxChanged) {
+  Widget _buildCheckboxGroup(String title, List<String> options, List<String> selectedOptions,
+      ValueChanged<List<String>> onCheckboxChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -210,13 +209,14 @@ class _ParametersPageState extends State<ParametersPage> {
             value: selectedOptions.contains(option),
             activeColor: Colors.brown,
             onChanged: (bool? value) {
-              List<String> updatedList = List.from(selectedOptions); // Create a copy
-              if (value == true) {
-                updatedList.add(option);
-              } else {
-                updatedList.remove(option);
-              }
-              onCheckboxChanged(updatedList);
+              setState(() {
+                if (value == true) {
+                  selectedOptions.add(option);
+                } else {
+                  selectedOptions.remove(option);
+                }
+                _savePreferences();
+              });
             },
           );
         }).toList(),
@@ -225,18 +225,25 @@ class _ParametersPageState extends State<ParametersPage> {
   }
 }
 
+
 class AboutMePage extends StatefulWidget {
   const AboutMePage({super.key});
 
   @override
-  _AboutMePageState createState() => _AboutMePageState();
+  State<AboutMePage> createState() => _AboutMePageState();
 }
 
 class _AboutMePageState extends State<AboutMePage> {
-  String? _selectedValue1, _selectedValue2, _selectedValue3, _selectedValue4, _selectedValue5;
+  String? _selectedValue1;
+  String? _selectedValue2;
+  String? _selectedValue3;
+  String? _selectedValue4;
+  String? _selectedValue5;
+
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
   final List<String> _selectedInterests = [];
+
   final List<Map<String, String>> _allInterests = [
     {'name': 'Voyages', 'emoji': '✈️'},
     {'name': 'Musique', 'emoji': '🎵'},
@@ -293,13 +300,21 @@ class _AboutMePageState extends State<AboutMePage> {
     {'name': 'Roller derby', 'emoji': '🛼'},
     {'name': 'Lego', 'emoji': '🧱'},
   ];
+
   List<Map<String, String>> _filteredInterests = [];
 
   @override
   void initState() {
     super.initState();
-    _filteredInterests = _allInterests;
+    _filteredInterests = List.from(_allInterests);
     _searchController.addListener(_filterInterests);
+  }
+
+  @override
+  void dispose() {
+    _descriptionController.dispose();
+    _searchController.dispose();
+    super.dispose();
   }
 
   void _filterInterests() {
@@ -314,7 +329,7 @@ class _AboutMePageState extends State<AboutMePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5ECE2),
+      backgroundColor: const Color(0xFFF6F2ED),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
@@ -326,44 +341,27 @@ class _AboutMePageState extends State<AboutMePage> {
                 style: TextStyle(
                   fontFamily: 'Pacifico',
                   fontSize: 38,
-                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () => Navigator.pushNamed(context, '/home'),
+                child: const Text(
+                  'Passer',
+                  style: TextStyle(
+                    fontSize: 16,
+                    decoration: TextDecoration.underline,
+                    color: Colors.brown,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'À propos de moi',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            _buildDropdown('Mes valeurs principales', _selectedValue1, ['Item 1', 'Item 2', 'Item 3'], (newValue) {
-              setState(() {
-                _selectedValue1 = newValue;
-              });
-            }),
-            _buildDropdown('Mon super pouvoir social', _selectedValue2, ['Item 1', 'Item 2', 'Item 3'], (newValue) {
-              setState(() {
-                _selectedValue2 = newValue;
-              });
-            }),
-            _buildDropdown('Mon idée de journée parfaite', _selectedValue3, ['Item 1', 'Item 2', 'Item 3'], (newValue) {
-              setState(() {
-                _selectedValue3 = newValue;
-              });
-            }),
-            _buildDropdown('Ce que je recherche chez les autres', _selectedValue4, ['Item 1', 'Item 2', 'Item 3'], (newValue) {
-              setState(() {
-                _selectedValue4 = newValue;
-              });
-            }),
-            _buildDropdown('Mon humeur sociale', _selectedValue5, ['Item 1', 'Item 2', 'Item 3'], (newValue) {
-              setState(() {
-                _selectedValue5 = newValue;
-              });
-            }),
+            _buildDropdown('Mes valeurs principales', _selectedValue1, ['Empathie', 'Authenticité', 'Fidélité', 'Partage', 'Bienveillance'], (newValue) => setState(() => _selectedValue1 = newValue)),
+            _buildDropdown('Mon super pouvoir social', _selectedValue2, ['Toujours prendre des nouvelles', 'Créer des discussions animées', 'Apaiser les conflits', 'Faire rire tout le monde', 'Rassembler mes proches'], (newValue) => setState(() => _selectedValue2 = newValue)),
+            _buildDropdown('Mon idée de journée parfaite', _selectedValue3, ['Un après-midi avec mes amis', 'Un appel profond avec un proche', 'Un dîner convivial', 'Une balade et des échanges sincères', 'Une journée à aider quelqu’un'], (newValue) => setState(() => _selectedValue3 = newValue)),
             const SizedBox(height: 20),
             TextFormField(
               controller: _descriptionController,
@@ -394,59 +392,34 @@ class _AboutMePageState extends State<AboutMePage> {
               ),
             ),
             const SizedBox(height: 20),
-            Container(
-              height: 100, // Hauteur fixe pour le conteneur défilable
-              child: SingleChildScrollView(
-                child: Wrap(
-                  spacing: 10.0,
-                  runSpacing: 10.0,
-                  children: _filteredInterests.map((interest) {
-                    return FilterChip(
-                      label: Text('${interest['emoji']} ${interest['name']}'),
-                      selected: _selectedInterests.contains(interest['name']),
-                      onSelected: (bool selected) {
-                        setState(() {
-                          if (selected) {
-                            _selectedInterests.add(interest['name']!);
-                          } else {
-                            _selectedInterests.remove(interest['name']!);
-                          }
-                        });
-                      },
-                    );
-                  }).toList(),
-                ),
-              ),
+            Wrap(
+              spacing: 10.0,
+              runSpacing: 10.0,
+              children: _filteredInterests.map((interest) {
+                return FilterChip(
+                  label: Text('${interest['emoji']} ${interest['name']}'),
+                  selected: _selectedInterests.contains(interest['name']),
+                  onSelected: (bool selected) {
+                    setState(() {
+                      selected ? _selectedInterests.add(interest['name']!) : _selectedInterests.remove(interest['name']!);
+                    });
+                  },
+                );
+              }).toList(),
             ),
             const SizedBox(height: 20),
             Center(
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.brown,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/home');
-                    },
-                    child: const Text(
-                      'Valider',
-                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextButton(
-                    onPressed: () {
-                      // Logique pour passer cette étape
-                    },
-                    child: const Text(
-                      'Passer',
-                      style: TextStyle(fontSize: 16, decoration: TextDecoration.underline),
-                    ),
-                  ),
-                ],
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.brown,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+                ),
+                onPressed: () => Navigator.pushNamed(context, '/home'),
+                child: const Text(
+                  'Enregistrer',
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],
@@ -466,12 +439,7 @@ class _AboutMePageState extends State<AboutMePage> {
           filled: true,
           fillColor: Colors.white,
         ),
-        items: items.map((String item) {
-          return DropdownMenuItem<String>(
-            value: item,
-            child: Text(item),
-          );
-        }).toList(),
+        items: items.map((String item) => DropdownMenuItem<String>(value: item, child: Text(item))).toList(),
         onChanged: onChanged,
       ),
     );
