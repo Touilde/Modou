@@ -4,7 +4,7 @@ import 'package:modou/activities.dart';
 import 'package:modou/home.dart';
 import 'package:modou/meetings.dart';
 import 'package:modou/relations.dart';
-import 'notification.dart'; // Assure-toi d'importer tes pages
+import 'notification.dart'; 
 import 'profil.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -44,7 +44,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: const Icon(Icons.person, color: Colors.black),
           onPressed: () async {
             String? token = await _getToken();
-            print("Token récupéré: $token");
             if (token != null) {
               Navigator.push(
                 context,
@@ -120,7 +119,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        canvasColor: Colors.white, // Fond du footer en blanc
+        canvasColor: Colors.white, 
       ),
       child: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

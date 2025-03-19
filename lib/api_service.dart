@@ -18,7 +18,7 @@ class ApiService {
 
   // Inscription d'un utilisateur
   static Future<http.Response> registerUser(String email, String password, String username) async {
-    await initialize(); // S'assurer que l'URL est chargée
+    await initialize(); 
     try {
       final response = await http.post(
         Uri.parse('$apiUrl/users/sign-up'),
@@ -36,7 +36,7 @@ class ApiService {
   static Future<String?> login(String email, String password) async {
     await initialize();
           final response = await http.post(
-        Uri.parse('$apiUrl/users/sign-in'), // Assure-toi que l'endpoint est correct
+        Uri.parse('$apiUrl/users/sign-in'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -59,7 +59,7 @@ class ApiService {
     await initialize();
     try {
       final response = await http.get(
-        Uri.parse('$apiUrl/users'), // Remplace par ton endpoint réel
+        Uri.parse('$apiUrl/users'), 
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
