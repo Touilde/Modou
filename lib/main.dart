@@ -7,7 +7,7 @@ import 'sign_up.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await ApiService.loadConfig(); 
+  await ApiService.initialize(); 
   runApp(const MainApp());
 }
 

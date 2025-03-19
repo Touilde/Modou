@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modou/app_layout.dart';
-import 'home.dart';
-import 'relations.dart';
-import 'meetings.dart';
-import 'profil.dart';
-import 'activities.dart';
+
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -15,7 +10,7 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage> {
 
-  // Liste des notifications (exemples fictifs)
+  //exemples ficitifs de notifications
   final List<Map<String, dynamic>> notifications = [
     {
       "icon": Icons.notifications_active,
@@ -90,7 +85,6 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
             const SizedBox(height: 10),
 
-            // Liste des notifications
             Expanded(
               child: ListView.builder(
                 itemCount: notifications.length,

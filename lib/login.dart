@@ -14,35 +14,28 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   String _errorMessage = '';
 
-  Future<void> _login() async {
-  if (_formKey.currentState!.validate()) {
-    final email = _emailController.text;
-    final password = _passwordController.text;
+  final storage = FlutterSecureStorage();
 
-    final token = await ApiService.login(email, password);
+  void login() async {
+  String email = _emailController.text;
+  String password = _passwordController.text;
+
+    String? token = await ApiService.login(email, password);
     
     if (token != null) {
-      // Connexion réussie, stocker le token
       final storage = FlutterSecureStorage();
       await storage.write(key: 'auth_token', value: token);
-
-      setState(() {
-        _errorMessage = ''; // Réinitialiser le message d'erreur
-      });
-
-      // Rediriger vers la page d'accueil
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
     } else {
-      // Connexion échouée
-      setState(() {
-        _errorMessage = 'Invalid email or password';
-      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Email ou mot de passe incorrect")),
+      );
     }
   }
-}
+
 
 
   @override
@@ -50,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFF6F2ED),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF6F2ED),
+        backgroundColor: const Color(0xFFFDF6F0),
         title: Text('Se connecter'),
       ),
       body: Padding(
@@ -84,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 20),
               TextFormField(
                 controller: _passwordController,
+                obscureText: true,
                 decoration: InputDecoration(
                     labelText: 'Mot de passe',
                     filled: true,
@@ -115,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                 ),
-                onPressed: _login,
+                onPressed: login,
                 child: const Text(
                   'Se connecter',
                   style: TextStyle(fontSize: 16, color: Colors.white),

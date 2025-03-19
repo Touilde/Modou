@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:modou/app_layout.dart';
-import 'dart:math';
-import 'relations.dart';
-import 'meetings.dart';
-import 'notification.dart';
-import 'profil.dart';
-import 'activities.dart';
+
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -14,6 +11,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  String? _token;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadToken();
+  }
+
+  Future<void> _loadToken() async {
+    final storage = FlutterSecureStorage();
+    String? token = await storage.read(key: 'auth_token');
+
+    setState(() {
+      _token = token;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +106,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 10),
-            // Card with dynamic width based on screen size
             SuggestionCard(
               text:
                   "Ça fait longtemps que vous n'avez pas parlé à Paul. Pourquoi ne pas lui proposer un verre 🍹 ?",
@@ -119,7 +133,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 10),
-            // Card with dynamic width based on screen size
             AdviceCard(
               text:
                   "Les messages vocaux sont souvent perçus comme plus chaleureux que les SMS. 🔔",
@@ -157,8 +170,8 @@ class SuggestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screenWidth - 2 * margin, // Largeur = largeur de l'écran - deux marges
-      margin: EdgeInsets.symmetric(vertical: 5), // Marge verticale entre les cartes
+      width: screenWidth - 2 * margin, 
+      margin: const EdgeInsets.symmetric(vertical: 5), 
       child: Card(
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -181,8 +194,8 @@ class AdviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screenWidth - 2 * margin, // Largeur = largeur de l'écran - deux marges
-      margin: EdgeInsets.symmetric(vertical: 5), // Marge verticale entre les cartes
+      width: screenWidth - 2 * margin,
+      margin: const EdgeInsets.symmetric(vertical: 5), 
       child: Card(
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),

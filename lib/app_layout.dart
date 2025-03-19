@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:modou/activities.dart';
 import 'package:modou/home.dart';
 import 'package:modou/meetings.dart';
@@ -7,7 +8,13 @@ import 'notification.dart'; // Assure-toi d'importer tes pages
 import 'profil.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBar({super.key});
 
+  Future<String?> _getToken() async {
+    final storage = FlutterSecureStorage();
+    return await storage.read(key: 'auth_token');
+  }
+  
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -35,11 +42,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.person, color: Colors.black),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfilPage()),
-            );
+          onPressed: () async {
+            String? token = await _getToken();
+            print("Token récupéré: $token");
+            if (token != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilPage(token: token)),
+              );
+            } else {
+              print("Token non trouvé !");
+            }
           },
         ),
       ],

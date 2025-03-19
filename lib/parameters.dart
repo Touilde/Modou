@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:modou/home.dart'; // Vérifie si AboutMePage est bien dans ce fichier
 
 class ParametersPage extends StatefulWidget {
   const ParametersPage({super.key});
@@ -237,8 +236,6 @@ class _AboutMePageState extends State<AboutMePage> {
   String? _selectedValue1;
   String? _selectedValue2;
   String? _selectedValue3;
-  String? _selectedValue4;
-  String? _selectedValue5;
 
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();

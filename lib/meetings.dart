@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:modou/app_layout.dart';
-import 'home.dart'; // Importer la page HomePage
-import 'relations.dart'; // Importer la page RelationsPage
-import 'notification.dart'; // Importer la page NotificationsPage
-import 'profil.dart'; // Importer la page ProfilePage
-import 'activities.dart'; // Importer la page ActivitiesPage
 
 class MeetingsPage extends StatefulWidget {
   const MeetingsPage({super.key});
@@ -14,41 +9,8 @@ class MeetingsPage extends StatefulWidget {
 }
 
 class _MeetingsPageState extends State<MeetingsPage> {
-  int _selectedIndex = 3;
   bool isReady = false;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
-        break;
-      case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const RelationsPage()),
-        );
-        break;
-      case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ActivitiesPage()),
-        );
-        break;
-      case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MeetingsPage()),
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +25,7 @@ class _MeetingsPageState extends State<MeetingsPage> {
             Row(
               children: [
                 Stack(
-                  clipBehavior: Clip.none, // Permet à l'indicateur de dépasser légèrement
+                  clipBehavior: Clip.none,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -77,8 +39,8 @@ class _MeetingsPageState extends State<MeetingsPage> {
                       ),
                     ),
                     Positioned(
-                      top: -13, // Décalage vers le haut
-                      right: -7, // Décalage vers la droite
+                      top: -13, 
+                      right: -7,
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: const BoxDecoration(
@@ -95,8 +57,8 @@ class _MeetingsPageState extends State<MeetingsPage> {
                 ),
                 const SizedBox(width: 16),
                 Image.asset(
-                  'images/ppmessages.png', // Assurez-vous que l'image est bien dans le dossier assets
-                  width: 150, // Taille ajustable selon vos besoins
+                  'images/ppmessages.png',
+                  width: 150, 
                   height: 150,
                 ),
               ],

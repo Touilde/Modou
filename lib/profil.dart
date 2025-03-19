@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:modou/app_layout.dart';
-import 'home.dart';
-import 'relations.dart';
-import 'meetings.dart';
-import 'notification.dart';
-import 'activities.dart';
+import 'package:modou/api_service.dart';
 import 'parameters.dart';
 
 class ProfilPage extends StatefulWidget {
-  const ProfilPage({super.key});
+  final String token; // Ajout du token
+  const ProfilPage({super.key, required this.token});
 
   @override
   _ProfilPageState createState() => _ProfilPageState();
 }
 
 class _ProfilPageState extends State<ProfilPage> {
+  String username = "Chargement...";
 
+  @override
+  void initState() {
+    super.initState();
+    fetchUsername();
+  }
+
+  Future<void> fetchUsername() async {
+    final response = await ApiService.getUserProfile(widget.token);
+    
+    if (response != null && response.containsKey('username')) {
+      setState(() {
+        username = response['username']; // Récupère le nom d'utilisateur
+      });
+    } else {
+      setState(() {
+        username = "Erreur de chargement";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +71,9 @@ class _ProfilPageState extends State<ProfilPage> {
               const SizedBox(height: 10),
 
               // Nom et Bio
-              const Text(
-                'Moudie', // Nom du profil
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              Text(
+                username,
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5),
 
@@ -81,7 +97,6 @@ class _ProfilPageState extends State<ProfilPage> {
               ),
               const SizedBox(height: 20),
 
-              // Historique des interactions
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(16),
@@ -122,7 +137,6 @@ class _ProfilPageState extends State<ProfilPage> {
               ),
               const SizedBox(height: 20),
 
-              // Bouton Paramètres
               ElevatedButton.icon(
                 icon: const Icon(Icons.settings, color: Colors.white),
                 label: const Text("Paramètres"),
@@ -138,7 +152,6 @@ class _ProfilPageState extends State<ProfilPage> {
               ),
               const SizedBox(height: 10),
 
-              // Bouton Déconnexion
               ElevatedButton.icon(
                 icon: const Icon(Icons.logout, color: Colors.white),
                 label: const Text("Déconnexion"),

@@ -1,11 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:modou/app_layout.dart';
-import 'home.dart';
-import 'meetings.dart';
-import 'notification.dart';
-import 'profil.dart';
-import 'activities.dart';
 import 'AddRelation.dart';
 
 
@@ -84,7 +78,7 @@ class _RelationsPageState extends State<RelationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      backgroundColor: const Color(0xFFF6F2ED), // Beige background
+      backgroundColor: const Color(0xFFF6F2ED), 
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -95,7 +89,7 @@ class _RelationsPageState extends State<RelationsPage> {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: const Color(0xFFF6F2ED),
+                color:  Color(0xFFF6F2ED),
               ),
             ),
             TextField(
@@ -143,7 +137,6 @@ class _RelationsPageState extends State<RelationsPage> {
                                 index: index,
                                 proche: proche,
                                 onProcheUpdated: (updatedProche) {
-                                  // Update the Proche when modified
                                   setState(() {
                                     _proches[index] = updatedProche;
                                   });
@@ -174,10 +167,10 @@ class _RelationsPageState extends State<RelationsPage> {
             });
           }
         },
-        backgroundColor: const Color(0xFFF6F2ED), // Beige
+        backgroundColor: const Color(0xFFF6F2ED), 
         child: const Icon(
           Icons.add,
-          color: Color(0xFF795548), // Brun
+          color: Color(0xFF795548), 
           ),
       ),
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 1),
@@ -186,18 +179,17 @@ class _RelationsPageState extends State<RelationsPage> {
 
  Widget _buildProcheAvatar(Proche proche) {
 
-    final imagePath = 'images/${proche.imageName}'; // Use imageName
+    final imagePath = 'images/${proche.imageName}'; 
 
     return CircleAvatar(
       backgroundImage: AssetImage(imagePath),
       onBackgroundImageError: (exception, stackTrace) {
-        print('Image not found: $imagePath');
       },
     );
   }
 }
 
-// Data model for a Proche
+
 class Proche {
   String name;
   String relationship;
@@ -223,11 +215,11 @@ class ProcheDetailsPage extends StatefulWidget {
   final Function(Proche) onProcheUpdated;
 
   const ProcheDetailsPage({
-    Key? key,
+    super.key,
     required this.index,
     required this.proche,
     required this.onProcheUpdated,
-  }) : super(key: key);
+  });
 
   @override
   _ProcheDetailsPageState createState() => _ProcheDetailsPageState();
@@ -239,9 +231,7 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
   late TextEditingController _distanceController;
   late TextEditingController _favoriteActivitiesController;
   late TextEditingController _interactionModeController;
-  late TextEditingController _imageNameController;
 
-  // final ImagePicker _picker = ImagePicker(); // Instance of ImagePicker
 
   @override
   void initState() {
@@ -285,9 +275,8 @@ class _ProcheDetailsPageState extends State<ProcheDetailsPage> {
  @override
 Widget build(BuildContext context) {
   return Scaffold(
-    backgroundColor: const Color(0xFFF6F2ED), // Beige background
+    backgroundColor: const Color(0xFFF6F2ED), 
     appBar: CustomAppBar(), 
-    // Beige background
     body: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -326,7 +315,6 @@ Widget build(BuildContext context) {
                 ),
               ),
               onPressed: () {
-                // Save changes
                 final updatedProche = Proche(
                   name: _nameController.text,
                   relationship: _relationshipController.text,
@@ -337,7 +325,7 @@ Widget build(BuildContext context) {
                   imageName: widget.proche.imageName,
                 );
                 widget.onProcheUpdated(updatedProche);
-                Navigator.pop(context); // Go back to the list
+                Navigator.pop(context); 
               },
               child: const Text(
                 'Enregistrer',
@@ -352,13 +340,13 @@ Widget build(BuildContext context) {
 }
  Widget _buildProcheAvatar(Proche proche) {
 
-    final imagePath = 'images/${proche.imageName}'; // Use imageName
+    final imagePath = 'images/${proche.imageName}'; 
 
-    return Center( // Center the whole thing
+    return Center( 
     child: ClipOval(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width / 4, // A quarter of the screen width
-        height: MediaQuery.of(context).size.width / 4, // Maintain a circle
+        width: MediaQuery.of(context).size.width / 4, 
+        height: MediaQuery.of(context).size.width / 4, 
         child: Image.asset(
           imagePath,
           fit: BoxFit.cover,

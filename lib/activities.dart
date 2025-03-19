@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:modou/app_layout.dart';
-import 'home.dart';
-import 'relations.dart';
-import 'meetings.dart';
-import 'notification.dart';
-import 'profil.dart';
 
 class ActivitiesPage extends StatefulWidget {
   const ActivitiesPage({Key? key}) : super(key: key);
@@ -63,9 +58,9 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
               ),
               const SizedBox(height: 5),
               SizedBox(
-                height: 160, // Ajustez la hauteur selon vos besoins pour le défilement vertical
+                height: 160, 
                 child: ListView.builder(
-                  scrollDirection: Axis.vertical,  // Défilement vertical
+                  scrollDirection: Axis.vertical,  
                   itemCount: _activities.length,
                   itemBuilder: (context, index) {
                     final activity = _activities[index];
@@ -73,7 +68,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                       padding: const EdgeInsets.symmetric(vertical: 3.0),
                       child: Text(
                         activity,
-                        style: TextStyle(fontSize: 18), // Ajuste la taille ici
+                        style: const TextStyle(fontSize: 18), 
                       ),
                     );
                   },
@@ -85,7 +80,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Aide à choisir la logique ici
+                      // Logique manquante
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF795548),
@@ -131,7 +126,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 ),
               ),
               SizedBox(
-                height: 120, // Ajustez la hauteur
+                height: 120, 
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: _jeux.length,
@@ -140,7 +135,6 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                     return _buildActivityItem(
                       jeu,
                       onTap: () {
-                        //Logique pour copier le lien
                         final snackBar = SnackBar(
                           content: const Row(
                             children: [
@@ -150,6 +144,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                             ],
                           ),
                           duration: const Duration(seconds: 2),
+                          // ignore: deprecated_member_use
                           backgroundColor: Colors.black.withOpacity(0.7),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -167,7 +162,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 ),
               ),
               SizedBox(
-                height: 120, // Ajustez la hauteur
+                height: 120, 
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: _loisirs.length,
@@ -176,7 +171,6 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                     return _buildActivityItem(
                       loisir,
                       onTap: () {
-                        //Logique pour copier le lien
                         final snackBar = SnackBar(
                           content: const Row(
                             children: [
@@ -186,6 +180,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                             ],
                           ),
                           duration: const Duration(seconds: 2),
+                          // ignore: deprecated_member_use
                           backgroundColor: Colors.black.withOpacity(0.7),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -225,12 +220,8 @@ class PlanifierPage extends StatefulWidget {
 }
 
 class _PlanifierPageState extends State<PlanifierPage> {
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _activityController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _durationController = TextEditingController();
-  List<DateTime> _selectedDates = [];
-  int _selectedIndex = 2;
+  final List<DateTime> _selectedDates = [];
 
   @override
   void initState() {
@@ -270,8 +261,6 @@ class _PlanifierPageState extends State<PlanifierPage> {
   }
 
   void _proposeActivity() {
-    // Logique pour proposer l'activité à un proche
-    //Logique pour copier le lien
     final snackBar = SnackBar(
       content: const Row(
         children: [
